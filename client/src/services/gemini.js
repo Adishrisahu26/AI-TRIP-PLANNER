@@ -1,0 +1,20 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+const genAI = new GoogleGenerativeAI(apiKey);
+
+const model = genAI.getGenerativeModel({
+  model: "gemini-3.5-flash",
+});
+
+export const generateTripPlan = async (prompt) => {
+  try {
+    const result = await model.generateContent(prompt);
+    const response = result.response;
+    return response.text();
+  } catch (error) {
+    console.error("Gemini Error:", error);
+    return `Error: ${error.message}`;
+  }
+};

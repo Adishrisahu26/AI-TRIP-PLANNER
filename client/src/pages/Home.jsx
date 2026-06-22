@@ -1,7 +1,9 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   return (
     <>
       <Navbar />
@@ -17,7 +19,9 @@ function Home() {
           and budget plans instantly.
         </p>
 
-        <button className="mt-8 bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl">
+        <button
+         onClick={() => navigate("/create-trip")}
+         className="mt-8 bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl">
           Start Planning
         </button>
 
