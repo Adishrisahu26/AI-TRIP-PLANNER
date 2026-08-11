@@ -62,14 +62,23 @@ function TravelJournal() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 p-8">
+    <div
+      className="min-h-screen p-8 text-white"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(2, 6, 23, 0.88), rgba(15, 23, 42, 0.94)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
       <div className="max-w-5xl mx-auto">
 
         <h1 className="text-4xl font-bold text-white mb-8 text-center">
           📖 Travel Journal
         </h1>
 
-        <div className="bg-slate-800 p-6 rounded-xl">
+        <div className="bg-slate-900/80 backdrop-blur-md p-6 rounded-xl border border-slate-700 shadow-2xl">
           <form onSubmit={saveJournal}>
             <input
               type="text"
@@ -77,7 +86,7 @@ function TravelJournal() {
               placeholder="Destination"
               value={formData.destination}
               onChange={handleChange}
-              className="w-full p-3 mb-4 rounded"
+              className="w-full p-3 mb-4 rounded bg-slate-800 border border-slate-600 text-white placeholder-slate-400"
               required
             />
 
@@ -86,7 +95,7 @@ function TravelJournal() {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="w-full p-3 mb-4 rounded"
+              className="w-full p-3 mb-4 rounded bg-slate-800 border border-slate-600 text-white placeholder-slate-400"
               required
             />
 
@@ -95,7 +104,7 @@ function TravelJournal() {
               placeholder="Write your travel experience..."
               value={formData.notes}
               onChange={handleChange}
-              className="w-full p-3 mb-4 rounded"
+              className="w-full p-3 mb-4 rounded bg-slate-800 border border-slate-600 text-white placeholder-slate-400"
               rows="4"
               required
             />
@@ -108,13 +117,13 @@ function TravelJournal() {
               max="5"
               value={formData.rating}
               onChange={handleChange}
-              className="w-full p-3 mb-4 rounded"
+              className="w-full p-3 mb-4 rounded bg-slate-800 border border-slate-600 text-white placeholder-slate-400"
               required
             />
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-lg"
+              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold"
             >
               Save Journal
             </button>
@@ -125,7 +134,7 @@ function TravelJournal() {
           {journal.map((entry) => (
             <div
               key={entry.id}
-              className="bg-slate-800 text-white p-5 rounded-xl"
+              className="bg-slate-900/80 text-white p-5 rounded-xl border border-slate-700 backdrop-blur-md"
             >
               <h2 className="text-2xl font-bold">
                 {entry.destination}

@@ -1,8 +1,26 @@
 import { useState } from "react";
 
+const getCurrentUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem("user")) || null;
+  } catch (error) {
+    return null;
+  }
+};
+
+const getTripStorageKey = () => {
+  const user = getCurrentUser();
+
+  if (user?.id) {
+    return `gojourney_trips_${user.id}`;
+  }
+
+  return "gojourney_trips_guest";
+};
+
 function MyTrip() {
 const [trips, setTrips] = useState(
-JSON.parse(localStorage.getItem("trips")) || []
+JSON.parse(localStorage.getItem(getTripStorageKey())) || []
 );
 
 const deleteTrip = (indexToDelete) => {
@@ -14,7 +32,7 @@ const updatedTrips = trips.filter(
 setTrips(updatedTrips);
 
 localStorage.setItem(
-  "trips",
+  getTripStorageKey(),
   JSON.stringify(updatedTrips)
 );
 
@@ -23,8 +41,21 @@ alert("Trip deleted successfully!");
 
 };
 
-return ( <div className="min-h-screen bg-slate-950 text-white p-8"> <h1 className="text-4xl font-bold mb-6">
-My Saved Trips </h1>
+return (
+  <div
+    className="min-h-screen text-white p-8"
+    style={{
+      backgroundImage:
+        "linear-gradient(rgba(2, 6, 23, 0.88), rgba(15, 23, 42, 0.92)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundAttachment: "fixed",
+    }}
+  >
+    <div className="max-w-6xl mx-auto">
+      <h1 className="text-4xl font-bold mb-6">
+        My Saved Trips
+      </h1>
 
 
   {trips.length === 0 ? (
@@ -34,7 +65,7 @@ My Saved Trips </h1>
       {trips.map((trip, index) => (
         <div
           key={index}
-          className="bg-slate-800 p-5 rounded-xl"
+          className="bg-slate-900/80 border border-slate-700 p-5 rounded-xl backdrop-blur-md"
         >
           <h2 className="text-2xl font-bold">
             📍 {trip.destination}
@@ -79,7 +110,7 @@ My Saved Trips </h1>
     </div>
   )}
 </div>
-
+</div>
 
 );
 }

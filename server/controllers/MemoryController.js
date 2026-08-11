@@ -1,9 +1,9 @@
-import Memory from "../models/Memory.js";
+const Memory = require("../models/Memory");
 
 // =========================
 // Create Memory
 // =========================
-export const createMemory = async (req, res) => {
+const createMemory = async (req, res) => {
   try {
     const { title, location, mood, note, images } = req.body;
 
@@ -32,7 +32,7 @@ export const createMemory = async (req, res) => {
 // =========================
 // Get All Memories
 // =========================
-export const getMemories = async (req, res) => {
+const getMemories = async (req, res) => {
   try {
     const memories = await Memory.find().sort({
       createdAt: -1,
@@ -55,7 +55,7 @@ export const getMemories = async (req, res) => {
 // =========================
 // Delete Memory
 // =========================
-export const deleteMemory = async (req, res) => {
+const deleteMemory = async (req, res) => {
   try {
     await Memory.findByIdAndDelete(req.params.id);
 
@@ -71,4 +71,10 @@ export const deleteMemory = async (req, res) => {
       message: err.message,
     });
   }
+};
+
+module.exports = {
+  createMemory,
+  getMemories,
+  deleteMemory,
 };

@@ -3,6 +3,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { generateTripPlan } from "../services/gemini";
 
 
+const getCurrentUser = () => {
+  try {
+    return JSON.parse(localStorage.getItem("user")) || null;
+  } catch (error) {
+    return null;
+  }
+};
+
+const getTripStorageKey = () => {
+  const user = getCurrentUser();
+
+  if (user?.id) {
+    return `gojourney_trips_${user.id}`;
+  }
+
+  return "gojourney_trips_guest";
+};
+
 function CreateTrip() {
   const navigate = useNavigate();
 
@@ -67,8 +85,9 @@ Format the response clearly.
 
   setTripPlan(response);
 
+  const tripStorageKey = getTripStorageKey();
   const savedTrips =
-    JSON.parse(localStorage.getItem("trips")) || [];
+    JSON.parse(localStorage.getItem(tripStorageKey)) || [];
 
   savedTrips.push({
     id: Date.now(),
@@ -82,7 +101,7 @@ Format the response clearly.
   });
 
   localStorage.setItem(
-    "trips",
+    tripStorageKey,
     JSON.stringify(savedTrips)
   );
 } catch (error) {
@@ -95,9 +114,19 @@ Format the response clearly.
 
 };
 
-return ( <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 py-10 px-4"> <div className="max-w-5xl mx-auto">
+return (
+  <div
+    className="min-h-screen py-10 px-4 text-white"
+    style={{
+      backgroundImage:
+        "linear-gradient(rgba(2, 6, 23, 0.86), rgba(15, 23, 42, 0.94)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundAttachment: "fixed",
+    }}
+  >
+    <div className="max-w-5xl mx-auto">
 
-```
     <div className="text-center mb-10">
       <h1 className="text-6xl font-bold text-white mb-4">
         ✈️ goJourney
@@ -130,7 +159,7 @@ return ( <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-
 
 </div>
 
-    <div className="bg-slate-800/80 backdrop-blur-md p-8 rounded-3xl border border-slate-700 shadow-2xl">
+    <div className="bg-slate-900/80 backdrop-blur-md p-8 rounded-3xl border border-slate-700 shadow-2xl">
 
       <form onSubmit={handleGenerateTrip}>
         <div className="grid md:grid-cols-2 gap-4">
@@ -211,7 +240,7 @@ return ( <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-
     </div>
 
     {tripPlan && (
-      <div className="mt-8 bg-slate-800/80 backdrop-blur-md p-8 rounded-3xl border border-slate-700 shadow-xl">
+      <div className="mt-8 bg-slate-900/80 backdrop-blur-md p-8 rounded-3xl border border-slate-700 shadow-xl">
         <h2 className="text-3xl font-bold text-white mb-4">
           🗺️ Your AI Travel Plan
         </h2>
@@ -223,7 +252,6 @@ return ( <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-
     )}
   </div>
 </div>
-
 
 );
 }

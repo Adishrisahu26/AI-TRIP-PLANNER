@@ -48,13 +48,44 @@ function MemoryVault() {
 
   // ---------------- HANDLE MULTIPLE IMAGES ----------------
 
-  const handleImage = (e) => {
+  const handleImage = async (e) => {
     const files = Array.from(e.target.files);
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    const unsupported = files.filter(
+      (file) => !allowedTypes.includes(file.type)
+    );
+
+    if (unsupported.length > 0) {
+      alert("Please upload JPEG, PNG or WebP images only. HEIC files are not supported.");
+      e.target.value = "";
+      setImages([]);
+      setPreviews([]);
+      return;
+    }
+
+    const tooLarge = files.filter((file) => file.size > 1000000);
+
+    if (tooLarge.length > 0) {
+      alert("Image is too large. Please choose images smaller than 1MB.");
+      e.target.value = "";
+      setImages([]);
+      setPreviews([]);
+      return;
+    }
 
     setImages(files);
 
-    const imagePreviews = files.map((file) =>
-      URL.createObjectURL(file)
+    const imagePreviews = await Promise.all(
+      files.map(
+        (file) =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          })
+      )
     );
 
     setPreviews(imagePreviews);
