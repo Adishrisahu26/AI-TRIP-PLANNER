@@ -2,7 +2,6 @@ services:
   - type: web
     name: gojourney-api
     runtime: node
-    repo: .
     plan: free
     buildCommand: |
       npm install --prefix server
