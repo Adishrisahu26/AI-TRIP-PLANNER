@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+  const API_BASE_URL = "https://gojourney-api-p8av.onrender.com";
 
   const login = async (email, password) => {
     try {
