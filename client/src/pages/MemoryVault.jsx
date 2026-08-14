@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 function MemoryVault() {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
   const [memories, setMemories] = useState([]);
 
   const [form, setForm] = useState({
@@ -27,9 +28,7 @@ function MemoryVault() {
 
   const fetchMemories = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/memory"
-      );
+      const res = await axios.get(`${API_BASE_URL}/api/memory`);
 
       setMemories(res.data.memories || []);
     } catch (error) {
@@ -115,10 +114,7 @@ function MemoryVault() {
     };
 
     try {
-      await axios.post(
-        "http://localhost:5000/api/memory",
-        newMemory
-      );
+      await axios.post(`${API_BASE_URL}/api/memory`, newMemory);
 
       fetchMemories();
 
@@ -141,9 +137,7 @@ function MemoryVault() {
 
   const deleteMemory = async (id) => {
     try {
-      await axios.delete(
-        `http://localhost:5000/api/memory/${id}`
-      );
+      await axios.delete(`${API_BASE_URL}/api/memory/${id}`);
 
       fetchMemories();
     } catch (error) {

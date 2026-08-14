@@ -8,8 +8,9 @@ export const TripProvider = ({ children }) => {
   const [currentTrip, setCurrentTrip] = useState(null);
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
-  const API_URL = "http://localhost:5000/api/trips";
+  const API_URL = `${API_BASE_URL}/api/trips`;
 
   const fetchTrips = async () => {
     try {
